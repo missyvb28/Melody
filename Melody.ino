@@ -10,20 +10,29 @@ by Tom Igoe.
 #include <Sparki.h> // include the sparki library
 #include "pitches.h" // include a list of pitches
 
-// notes in the melody:
-int melody[] = { NOTE_C4, NOTE_G3,NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4 };
-
-// note durations: 4 = quarter note, 8 = eighth note, etc.:
-int noteDurations[] = { 4, 8, 8, 4, 4, 4, 4, 4 };
+// Melody notes and durations
+struct {
+  int note;
+  int duration;
+} melody[] = {
+  { NOTE_C4, 4},
+  { NOTE_G3, 8},
+  { NOTE_G3, 8},
+  { NOTE_A3, 4},
+  { NOTE_G3, 4},
+  { 0,       4},
+  { NOTE_B3, 4},
+  { NOTE_C4, 4},
+};
 
 void setup() {
   // play each note in the arrays
-  for (int thisNote = 0; thisNote < 8; thisNote++) {
+  for (int thisNote = 0; thisNote < sizeof(melody) / sizeof(melody[0]); thisNote++) {
 
     // calculate the note duration as 1 second divided by note type.
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    int noteDuration = 1000/noteDurations[thisNote];
-    sparki.beep(melody[thisNote],noteDuration);
+    int noteDuration = 1000 / melody[thisNote].duration;
+    sparki.beep(melody[thisNote].note, noteDuration);
 
     // to distinguish the notes, set a minimum time between them.
     // the note's duration + 30% seems to work well:
